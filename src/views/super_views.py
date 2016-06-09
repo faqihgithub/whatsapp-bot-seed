@@ -12,6 +12,7 @@ class SuperViews():
             ("^/about", self.about),
             ("^/roll", self.roll),
             ("/(?P<evenOrOdd>even|odd)$", self.even_or_odd),
+            ("/(?P<s0rp0rs>stone|paper|scissor)$", self.sps),
         ]
 
     def about(self, message=None, match=None, to=None):
@@ -27,24 +28,32 @@ class SuperViews():
             return TextMessageProtocolEntity("[%d]\nYou win." % num, to=message.getFrom())
         else:
             return TextMessageProtocolEntity("[%d]\nYou lose!" % num, to=message.getFrom())
-
-    def help(self, message=None, match=None, to=None):
-        return TextMessageProtocolEntity(HELP_TEXT, to=message.getFrom())
+    
+    def sps(self, message=None, match=None, to=None): 
+	list= ['stone','paper','scissor'] #Created a list for random.
+	txt = random.choice(list)
+	is_choice = match.group("s0rp0rs")
+	if (list.index(txt) + 1 == list.index(is_choice)) or (list.index(txt) -2 == list.index(is_choice)) : # Index of your choice is more than auto generated choice, hence You win. Exception: Stone-Scissor case.
+		return TextMessageProtocolEntity("Bot: %s\nYou: %s\nYou won!." % (txt, is_choice), to=message.getFrom())
+	elif (list.index(txt) == list.index(is_choice) + 1) or (list.index(txt) == list.index(is_choice) - 2): # Index of your choice is less than auto generated choice, hence You lose. Exception: Stone-Scissor case.
+		return TextMessageProtocolEntity("BOT: %s\nYou: %s\nYou lost ." % (txt, is_choice), to=message.getFrom())
+	else:
+		return TextMessageProtocolEntity("BOT: %s\nYou: %s\nIt's a tie." % (txt, is_choice), to=message.getFrom())
 
 
 HELP_TEXT = """ [HELP]
 - Commands
 /help - Show this message.
 /about - About
-/s(earch) - I'm lucky!
-/i(mage) - I'm lucky with image!
-/t(ts) - Text to speech.
-/(even)(odd) - Amazing game.
+/search - I'm lucky!
+/image - I'm lucky with image!
+/tts - Text to speech.
+/even or /odd - Amazing game.
 /ping - Pong.
 /echo - Echo.
 /roll - Roll a dice.
-
-Automatic:
+/stone or /paper or /scissor - Play Stone Paper Scissor
+Automatic: 
     - Url (http://...) print screen.
     - Image (jpeg, gif, png) download.
     - Videos (mp4, webm) downloads.
