@@ -34,11 +34,11 @@ class SuperViews():
 	txt = random.choice(list)
 	is_choice = match.group("s0rp0rs")
 	if (list.index(txt) + 1 == list.index(is_choice)) or (list.index(txt) -2 == list.index(is_choice)) : # Index of your choice is more than auto generated choice, hence You win. Exception: Stone-Scissor case.
-		return TextMessageProtocolEntity("Bot: %s\nYou: %s\nYou won!." % (txt, is_choice), to=message.getFrom())
+		return TextMessageProtocolEntity("You: %s\nBOT: %s\nYou won!." % (is_choice, txt), to=message.getFrom())
 	elif (list.index(txt) == list.index(is_choice) + 1) or (list.index(txt) == list.index(is_choice) - 2): # Index of your choice is less than auto generated choice, hence You lose. Exception: Stone-Scissor case.
-		return TextMessageProtocolEntity("BOT: %s\nYou: %s\nYou lost ." % (txt, is_choice), to=message.getFrom())
+		return TextMessageProtocolEntity("You: %s\nBOT: %s\nYou lost ." % (is_choice, txt), to=message.getFrom())
 	else:
-		return TextMessageProtocolEntity("BOT: %s\nYou: %s\nIt's a tie." % (txt, is_choice), to=message.getFrom())
+		return TextMessageProtocolEntity("You: %s\nBOT: %s\nIt's a tie." % (is_choice, txt), to=message.getFrom())
 
 
 HELP_TEXT = """ [HELP]
